@@ -27,12 +27,18 @@ class Author extends ResourceController
         
         ];
 
-        return $this->response->setJSON($data);
+        $response = [
+            'status' => 200,
+            'error' => null,
+            'data' => $data
+        ];
+
+        return $this->response->setJSON($response);
     }
 
     public function add_form()
     {
-        return $this->response->setJSON("test");
+        return $this->response->setJSON("Halaman tambah author");
     }
 
     public function edit($id = null)
@@ -43,7 +49,13 @@ class Author extends ResourceController
             return $this->fail('Author not found', 404);
         }
 
-        return $this->response->setJSON($data);
+        $response = [
+            'status' => 200,
+            'error' => null,
+            'data' => $data
+        ];
+
+        return $this->response->setJSON($response);
     }
 
 
@@ -51,14 +63,37 @@ class Author extends ResourceController
     {
         $data = $this->request->getJSON();
         $this->authorModel->insert($data);
-        return $this->response->setJSON($data);
+
+        // return response with 201 status code if success
+        $response = [
+            'status' => 201,
+            'error' => null,
+            'message' => [
+                'success' => 'Author created'
+            ]
+        ];  
+
+        // if failed return response with 500 status code
+        if (!$response)
+        {
+            return $this->fail($response, 500);
+        }
+
+        return $this->response->setJSON($response, 201);
     }
     
     public function update($id = null)
     {
         $data = $this->request->getJSON();
         $this->authorModel->update($id, $data);
-        return $this->response->setJSON($data);
+        $response = [
+            'status' => 200,
+            'error' => null,
+            'message' => [
+                'success' => 'Author updated'
+            ]
+        ];
+        return $this->response->setJSON($response);
     }
 
     public function delete($id = null)
@@ -69,7 +104,15 @@ class Author extends ResourceController
             return $this->failNotFound('Author not found');
         }
         $this->authorModel->delete($id);
-        return $this->response->setJSON($data);
+
+        $response = [
+            'status' => 200,
+            'error' => null,
+            'message' => [
+                'success' => 'Author deleted'
+            ]
+        ];
+        return $this->response->setJSON($response);
     }
 
 
