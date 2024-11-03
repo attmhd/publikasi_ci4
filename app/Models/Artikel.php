@@ -7,12 +7,12 @@ use CodeIgniter\Model;
 class Artikel extends Model
 {
     protected $table            = 'artikel';
-    protected $primaryKey       = 'id';
-    protected $useAutoIncrement = true;
+    protected $primaryKey       = 'id_artikel';
+    protected $useAutoIncrement = false;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = ['id_artikel','judul_artikel'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
