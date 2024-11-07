@@ -4,15 +4,15 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class DetailArtikel extends Model
+class DetailartikelModel extends Model
 {
-    protected $table            = 'detailartikels';
-    protected $primaryKey       = 'id';
-    protected $useAutoIncrement = true;
+    protected $table            = 'artikel';
+    protected $primaryKey       = 'id_artikel';
+    protected $useAutoIncrement = false;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = ['id_artikel','id_author','penulis_ke'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;

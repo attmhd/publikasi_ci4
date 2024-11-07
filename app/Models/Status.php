@@ -6,13 +6,13 @@ use CodeIgniter\Model;
 
 class Status extends Model
 {
-    protected $table            = 'statuses';
-    protected $primaryKey       = 'id';
-    protected $useAutoIncrement = true;
+    protected $table            = 'status';
+    protected $primaryKey       = 'id_status';
+    protected $useAutoIncrement = false;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = ["id_status","nama_status"];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;

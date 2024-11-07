@@ -6,13 +6,13 @@ use CodeIgniter\Model;
 
 class Editor extends Model
 {
-    protected $table            = 'editors';
-    protected $primaryKey       = 'id';
-    protected $useAutoIncrement = true;
+    protected $table            = 'editor';
+    protected $primaryKey       = 'id_editor';
+    protected $useAutoIncrement = false;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = ["id_editor","nama_editor","affiliasi"];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;

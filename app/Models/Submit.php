@@ -6,13 +6,13 @@ use CodeIgniter\Model;
 
 class Submit extends Model
 {
-    protected $table            = 'submits';
-    protected $primaryKey       = 'id';
-    protected $useAutoIncrement = true;
+    protected $table            = 'submit';
+    protected $primaryKey       = 'id_submit';
+    protected $useAutoIncrement = false;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = ["id_submit","tgl_submit","id_artikel","id_penugasan_editor","id_editor","id_status","id_issue","judul_baru"];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;

@@ -6,13 +6,13 @@ use CodeIgniter\Model;
 
 class ArsipTerbitan extends Model
 {
-    protected $table            = 'arsipterbitans';
+    protected $table            = 'arsip_terbitan';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = ["id_issue", "id_artikel"];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;

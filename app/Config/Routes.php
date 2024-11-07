@@ -25,3 +25,7 @@ $routes->group('artikel', function($routes) {
     $routes->put('update/(:any)', 'ArtikelController::update/$1');
     $routes->delete('delete/(:any)', 'ArtikelController::delete/$1');
 });
+
+$routes->get('/', function () {
+    return view('components/sidebar');
+});

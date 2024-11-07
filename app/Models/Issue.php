@@ -6,13 +6,13 @@ use CodeIgniter\Model;
 
 class Issue extends Model
 {
-    protected $table            = 'issues';
-    protected $primaryKey       = 'id';
-    protected $useAutoIncrement = true;
+    protected $table            = 'issue';
+    protected $primaryKey       = 'id_issue';
+    protected $useAutoIncrement = false;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = ["id_issue","nama_issue"];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;

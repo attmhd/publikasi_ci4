@@ -6,13 +6,13 @@ use CodeIgniter\Model;
 
 class Reviewer extends Model
 {
-    protected $table            = 'reviewers';
-    protected $primaryKey       = 'id';
-    protected $useAutoIncrement = true;
+    protected $table            = 'reviewer';
+    protected $primaryKey       = 'id_reviewer';
+    protected $useAutoIncrement = false;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = ["id_reviewer","nama_reviewer","affiliasi"];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
