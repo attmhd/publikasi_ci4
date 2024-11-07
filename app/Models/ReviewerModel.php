@@ -4,7 +4,7 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class Reviewer extends Model
+class ReviewerModel extends Model
 {
     protected $table            = 'reviewer';
     protected $primaryKey       = 'id_reviewer';

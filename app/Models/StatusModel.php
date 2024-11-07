@@ -4,15 +4,15 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class Issue extends Model
+class StatusModel extends Model
 {
-    protected $table            = 'issue';
-    protected $primaryKey       = 'id_issue';
+    protected $table            = 'status';
+    protected $primaryKey       = 'id_status';
     protected $useAutoIncrement = false;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ["id_issue","nama_issue"];
+    protected $allowedFields    = ["id_status","nama_status"];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;

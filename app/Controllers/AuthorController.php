@@ -3,20 +3,23 @@
 namespace App\Controllers;
 
 use CodeIgniter\RESTful\ResourceController;
+use CodeIgniter\Session\Session;
 
 // import model
 use App\Models\AuthorView;
 use App\Models\AuthorModel;
 
-class Author extends ResourceController
+class AuthorController extends ResourceController
 {
     protected $authorView;
     protected $authorModel;
+    protected $session;
 
     public function __construct()
     {
         $this->authorView = new AuthorView();
         $this->authorModel = new AuthorModel();
+        $this->session = \Config\Services::session();
     }
 
     public function index()
@@ -24,7 +27,6 @@ class Author extends ResourceController
         $data = [
             'authors' => $this->authorView->paginate(5),
             'pager' => $this->authorView->pager,
-        
         ];
 
         $response = [
@@ -58,7 +60,6 @@ class Author extends ResourceController
         return $this->response->setJSON($response);
     }
 
-
     public function create()
     {
         $data = $this->request->getJSON();
@@ -79,6 +80,9 @@ class Author extends ResourceController
             return $this->fail($response, 500);
         }
 
+        // Set flash message
+        $this->session->setFlashdata('success', 'Author created successfully.');
+
         return $this->response->setJSON($response, 201);
     }
     
@@ -93,6 +97,10 @@ class Author extends ResourceController
                 'success' => 'Author updated'
             ]
         ];
+
+        // Set flash message
+        $this->session->setFlashdata('success', 'Author updated successfully.');
+
         return $this->response->setJSON($response);
     }
 
@@ -112,9 +120,10 @@ class Author extends ResourceController
                 'success' => 'Author deleted'
             ]
         ];
+
+        // Set flash message
+        $this->session->setFlashdata('success', 'Author deleted successfully.');
+
         return $this->response->setJSON($response);
     }
-
-
-
 }

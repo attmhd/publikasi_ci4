@@ -4,15 +4,15 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class ArsipTerbitan extends Model
+class EditorModel extends Model
 {
-    protected $table            = 'arsip_terbitan';
-    protected $primaryKey       = 'id';
-    protected $useAutoIncrement = true;
+    protected $table            = 'editor';
+    protected $primaryKey       = 'id_editor';
+    protected $useAutoIncrement = false;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ["id_issue", "id_artikel"];
+    protected $allowedFields    = ["id_editor","nama_editor","affiliasi"];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;

@@ -4,15 +4,15 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class DetailartikelModel extends Model
+class ReviewModel extends Model
 {
-    protected $table            = 'artikel';
-    protected $primaryKey       = 'id_artikel';
+    protected $table            = 'review';
+    protected $primaryKey       = 'id_review';
     protected $useAutoIncrement = false;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['id_artikel','id_author','penulis_ke'];
+    protected $allowedFields    = ["id_review","id_submit","id_editor","id_reviewer","tgl_penugasan_reviewer","id_status"];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;

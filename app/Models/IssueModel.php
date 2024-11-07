@@ -4,15 +4,15 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class User extends Model
+class IssueModel extends Model
 {
-    protected $table            = 'user';
-    protected $primaryKey       = 'id_user';
+    protected $table            = 'issue';
+    protected $primaryKey       = 'id_issue';
     protected $useAutoIncrement = false;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ["id_user","namauser","username","password","level"];
+    protected $allowedFields    = ["id_issue","nama_issue"];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;

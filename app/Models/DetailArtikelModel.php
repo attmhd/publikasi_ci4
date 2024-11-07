@@ -4,15 +4,15 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class Submit extends Model
+class DetailArtikelModel extends Model
 {
-    protected $table            = 'submit';
-    protected $primaryKey       = 'id_submit';
-    protected $useAutoIncrement = false;
+    protected $table            = 'detail_artikel';
+    protected $primaryKey       = 'id';
+    protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ["id_submit","tgl_submit","id_artikel","id_penugasan_editor","id_editor","id_status","id_issue","judul_baru"];
+    protected $allowedFields    = ['id_artikel','id_author','penulis_ke'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;

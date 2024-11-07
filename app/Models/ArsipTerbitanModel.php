@@ -4,15 +4,15 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class Status extends Model
+class ArsipTerbitanModel extends Model
 {
-    protected $table            = 'status';
-    protected $primaryKey       = 'id_status';
-    protected $useAutoIncrement = false;
+    protected $table            = 'arsip_terbitan';
+    protected $primaryKey       = 'id';
+    protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ["id_status","nama_status"];
+    protected $allowedFields    = ["id_issue", "id_artikel"];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
