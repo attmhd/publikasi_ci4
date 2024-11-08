@@ -9,7 +9,6 @@ use App\Models\EditorModel;
 use App\Models\IssueModel;
 use App\Models\StatusModel;
 
-
 class SubmitController extends ResourceController
 {
     protected $submitModel;
@@ -17,6 +16,7 @@ class SubmitController extends ResourceController
     protected $editorModel;
     protected $issueModel;
     protected $statusModel;
+    protected $session;
 
     public function __construct()
     {
@@ -25,6 +25,7 @@ class SubmitController extends ResourceController
         $this->editorModel = new EditorModel();
         $this->issueModel = new IssueModel();
         $this->statusModel = new StatusModel();
+        $this->session = \Config\Services::session();
     }
 
     public function index()
@@ -34,7 +35,7 @@ class SubmitController extends ResourceController
             'pager' => $this->submitModel->pager,
         ];
 
-        return $this->respond($data);
+        return view('submit/index', $data);
     }
 
     public function add_form()
@@ -46,10 +47,11 @@ class SubmitController extends ResourceController
             'status' => $this->statusModel->findAll(),
         ];
 
-        return $this->respond($data);
+        // return $this->respond($data);
+        return view('submit/add_form', $data);
     }
 
-    public function edit_form($id = null)
+    public function edit($id = null)
     {
         $submit = $this->submitModel->find($id);
         if (!$submit) {
@@ -64,49 +66,55 @@ class SubmitController extends ResourceController
             'status' => $this->statusModel->findAll(),
         ];
 
-        return $this->respond($data);
+        // return $this->respond($data);
+        return view('submit/edit_form', $data);
     }
 
     public function create()
     {
         $data = [
+            'id_submit' => $this->request->getPost('id_submit'),
+            'tgl_submit' => $this->request->getPost('tgl_submit'),
             'id_artikel' => $this->request->getPost('id_artikel'),
             'id_editor' => $this->request->getPost('id_editor'),
             'id_issue' => $this->request->getPost('id_issue'),
             'id_status' => $this->request->getPost('id_status'),
-            'tanggal_submit' => $this->request->getPost('tanggal_submit'),
+            'tgl_submit' => $this->request->getPost('tgl_submit'),
+            'tgl_penugasan_editor' => $this->request->getPost('tgl_penugasan_editor'),
+            'judul_baru' => $this->request->getPost('judul_baru'),
         ];
 
         if ($this->submitModel->insert($data)) {
-            return $this->respondCreated($data);
+            $this->session->setFlashdata('message', 'Submit created successfully.');
+            return redirect()->to('/dashboard/submit');
+        } else {
+            $this->session->setFlashdata('error', 'Failed to create submit.');
+            return redirect()->back()->withInput();
         }
     }
 
     public function update($id = null)
     {
         $validation = \Config\Services::validation();
-        $validation->setRules([
-            'id_artikel' => 'required',
-            'id_editor' => 'required',
-            'id_issue' => 'required',
-            'id_status' => 'required',
-            'tanggal_submit' => 'required',
-        ]);
 
-        if (!$validation->withRequest($this->request)->run()) {
-            return $this->fail($validation->getErrors());
-        }
 
         $data = [
+            'tgl_submit' => $this->request->getPost('tgl_submit'),
             'id_artikel' => $this->request->getPost('id_artikel'),
             'id_editor' => $this->request->getPost('id_editor'),
             'id_issue' => $this->request->getPost('id_issue'),
             'id_status' => $this->request->getPost('id_status'),
-            'tanggal_submit' => $this->request->getPost('tanggal_submit'),
+            'tgl_submit' => $this->request->getPost('tgl_submit'),
+            'tgl_penugasan_editor' => $this->request->getPost('tgl_penugasan_editor'),
+            'judul_baru' => $this->request->getPost('judul_baru'),
         ];
 
         if ($this->submitModel->update($id, $data)) {
-            return $this->respondUpdated($data);
+            $this->session->setFlashdata('message', 'Submit updated successfully.');
+            return redirect()->to('/dashboard/submit');
+        } else {
+            $this->session->setFlashdata('error', 'Failed to update submit.');
+            return redirect()->back()->withInput();
         }
     }
 
@@ -118,7 +126,12 @@ class SubmitController extends ResourceController
         }
 
         if ($this->submitModel->delete($id)) {
-            return $this->respondDeleted($submit);
+            $this->session->setFlashdata('message', 'Submit deleted successfully.');
+
+            return redirect()->to('/dashboard/submit');
+        } else {
+            $this->session->setFlashdata('error', 'Failed to delete submit.');
+            return redirect()->back();
         }
     }
 }

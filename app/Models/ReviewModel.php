@@ -8,11 +8,11 @@ class ReviewModel extends Model
 {
     protected $table            = 'review';
     protected $primaryKey       = 'id_review';
-    protected $useAutoIncrement = false;
+    protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ["id_review","id_submit","id_editor","id_reviewer","tgl_penugasan_reviewer","id_status"];
+    protected $allowedFields    = ["id_submit","id_editor","id_reviewer","tgl_penugasan_reviewer","id_status"];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;

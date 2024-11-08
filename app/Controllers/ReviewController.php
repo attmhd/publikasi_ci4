@@ -33,7 +33,8 @@ class ReviewController extends ResourceController
             'pager' => $this->reviewModel->pager,
         ];
 
-        return $this->respond($data);
+        // return $this->respond($data);
+        return view('review/index', $data);
     }
 
     public function add_form()
@@ -45,10 +46,11 @@ class ReviewController extends ResourceController
             'status' => $this->statusModel->findAll(),
         ];
 
-        return $this->respond($data);
+        // return $this->respond($data);
+        return view('review/add_form', $data);
     }
 
-    public function edit_form($id = null)
+    public function edit($id = null)
     {
         $review = $this->reviewModel->find($id);
         if (!$review) {
@@ -63,19 +65,19 @@ class ReviewController extends ResourceController
             'status' => $this->statusModel->findAll(),
         ];
 
-        return $this->respond($data);
+        // return $this->respond($data);
+        return view('review/edit_form', $data);
     }
 
     public function create()
     {
         $validation = \Config\Services::validation();
         $validation->setRules([
-            'id_review' => 'required',
             'id_submit' => 'required',
             'id_editor' => 'required',
             'id_reviewer' => 'required',
+            'tgl_penugasan_reviewer' => 'required',
             'id_status' => 'required',
-            'review' => 'required',
         ]);
 
         if (!$validation->withRequest($this->request)->run()) {
@@ -83,12 +85,12 @@ class ReviewController extends ResourceController
         }
 
         $data = $this->request->getPost([
-            'id_review', 'id_submit', 'id_editor', 'id_reviewer', 'id_status', 'review'
+             'id_submit', 'id_editor', 'id_reviewer', 'tgl_penugasan_reviewer' ,'id_status'
         ]);
 
         if ($this->reviewModel->insert($data)) {
-            session()->setFlashdata('success', 'Data berhasil disimpan');
-            return redirect()->to('/review');
+            session()->setFlashdata('message', 'Data berhasil disimpan');
+            return redirect()->to('/dashboard/review');
         }
     }
 
@@ -99,8 +101,8 @@ class ReviewController extends ResourceController
             'id_submit' => 'required',
             'id_editor' => 'required',
             'id_reviewer' => 'required',
+            'tgl_penugasan_reviewer' => 'required',
             'id_status' => 'required',
-            'review' => 'required',
         ]);
 
         if (!$validation->withRequest($this->request)->run()) {
@@ -108,12 +110,12 @@ class ReviewController extends ResourceController
         }
 
         $data = $this->request->getPost([
-            'id_submit', 'id_editor', 'id_reviewer', 'id_status', 'review'
+            'id_submit', 'id_editor', 'id_reviewer', 'tgl_penugasan_reviewer' ,'id_status'
         ]);
 
         if ($this->reviewModel->update($id, $data)) {
-            session()->setFlashdata('success', 'Data berhasil diupdate');
-            return redirect()->to('/review');
+            session()->setFlashdata('message', 'Data berhasil diupdate');
+            return redirect()->to('/dashboard/review');
         }
     }
 
@@ -122,8 +124,8 @@ class ReviewController extends ResourceController
         $review = $this->reviewModel->find($id);
         if ($review) {
             $this->reviewModel->delete($id);
-            session()->setFlashdata('success', 'Data berhasil dihapus');
-            return $this->respondDeleted(['message' => 'Data berhasil dihapus']);
+            session()->setFlashdata('message', 'Data berhasil dihapus');
+            return redirect()->to('/dashboard/review');
         }
 
         return $this->failNotFound('Review not found');

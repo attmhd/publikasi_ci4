@@ -4,8 +4,6 @@ namespace App\Controllers;
 
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\Session\Session;
-
-// import model
 use App\Models\AuthorView;
 use App\Models\AuthorModel;
 
@@ -29,101 +27,76 @@ class AuthorController extends ResourceController
             'pager' => $this->authorView->pager,
         ];
 
-        $response = [
-            'status' => 200,
-            'error' => null,
-            'data' => $data
-        ];
-
-        return $this->response->setJSON($response);
+        return view('author/index', $data);
     }
 
     public function add_form()
     {
-        return $this->response->setJSON("Halaman tambah author");
+        return view('author/add_form');
     }
 
     public function edit($id = null)
     {
         $data = $this->authorModel->find($id);
-        if (!$data)
-        {
+        if (!$data) {
             return $this->fail('Author not found', 404);
         }
 
-        $response = [
-            'status' => 200,
-            'error' => null,
-            'data' => $data
-        ];
-
-        return $this->response->setJSON($response);
+        return view('author/edit_form', ["author" => $data]);
+        // return $this->respond($data);
     }
 
     public function create()
     {
-        $data = $this->request->getJSON();
-        $this->authorModel->insert($data);
-
-        // return response with 201 status code if success
-        $response = [
-            'status' => 201,
-            'error' => null,
-            'message' => [
-                'success' => 'Author created'
-            ]
-        ];  
-
-        // if failed return response with 500 status code
-        if (!$response)
-        {
-            return $this->fail($response, 500);
-        }
-
-        // Set flash message
-        $this->session->setFlashdata('success', 'Author created successfully.');
-
-        return $this->response->setJSON($response, 201);
-    }
-    
-    public function update($id = null)
-    {
-        $data = $this->request->getJSON();
-        $this->authorModel->update($id, $data);
-        $response = [
-            'status' => 200,
-            'error' => null,
-            'message' => [
-                'success' => 'Author updated'
-            ]
+        $data = [
+            "id_author" => $this->request->getPost('id_author'),
+            "nama_author" => $this->request->getPost('nama_author'),
+            "prodi" => $this->request->getPost('prodi'),
+            "email" => $this->request->getPost('email'),
+            'afiliasi' => $this->request->getPost('afiliasi'),
+            "wa" => $this->request->getPost('wa'),
         ];
 
-        // Set flash message
-        $this->session->setFlashdata('success', 'Author updated successfully.');
+        if ($this->authorModel->insert($data)) {
+            $this->session->setFlashdata('success', 'Author berhasil ditambahkan');
+            return redirect()->to('/dashboard/author');
+        } else {
+            return redirect()->back()->withInput()->with('errors', $this->authorModel->errors());
+        }
+    }
 
-        return $this->response->setJSON($response);
+    public function update($id = null)
+    {
+        $data = [
+            "id_author" => $this->request->getPost('id_author'),
+            "nama_author" => $this->request->getPost('nama_author'),
+            "prodi" => $this->request->getPost('prodi'),
+            "email" => $this->request->getPost('email'),
+            'afiliasi' => $this->request->getPost('afiliasi'),
+            "wa" => $this->request->getPost('wa'),
+        ];
+
+        if ($this->authorModel->update($id, $data)) {
+            $this->session->setFlashdata('success', 'Author berhasil ditambahkan');
+            return redirect()->to('/dashboard/author');
+        } else {
+            return redirect()->back()->withInput()->with('errors', $this->authorModel->errors());
+        }
     }
 
     public function delete($id = null)
     {
         $data = $this->authorModel->find($id);
-        if (!$data)
-        {
+        if (!$data) {
             return $this->failNotFound('Author not found');
         }
+
         $this->authorModel->delete($id);
 
-        $response = [
-            'status' => 200,
-            'error' => null,
-            'message' => [
-                'success' => 'Author deleted'
-            ]
-        ];
-
-        // Set flash message
         $this->session->setFlashdata('success', 'Author deleted successfully.');
 
-        return $this->response->setJSON($response);
+        return redirect()->to('/dashboard/author');
+
+      
     }
 }

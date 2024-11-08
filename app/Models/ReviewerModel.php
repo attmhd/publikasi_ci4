@@ -12,7 +12,7 @@ class ReviewerModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ["id_reviewer","nama_reviewer","affiliasi"];
+    protected $allowedFields    = ["id_reviewer","nama_reviewer","afiliasi"];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;

@@ -31,7 +31,8 @@ class ArsipTerbitanController extends ResourceController
             'pager' => $this->model->pager,
         ];
 
-        return $this->respond($data);
+        return view('arsip_terbitan/index', $data);
+        // return $this->respond($data);
     }
 
     public function create()
@@ -42,7 +43,7 @@ class ArsipTerbitanController extends ResourceController
         ];
 
         if ($this->model->insert($data)) {
-            $this->session->setFlashdata('success', 'Data berhasil disimpan');
+            $this->session->setFlashdata('message', 'Data berhasil disimpan');
             $response = [
                 'status' => 201,
                 'error' => null,
@@ -50,7 +51,8 @@ class ArsipTerbitanController extends ResourceController
                     'success' => 'Data berhasil disimpan'
                 ]
             ];
-            return $this->respondCreated($response);
+            // return $this->respondCreated($response);
+            return redirect()->to('/dashboard/arsipterbitan');
         }
     }
 
@@ -61,7 +63,8 @@ class ArsipTerbitanController extends ResourceController
             'artikel' => $this->artikel->findAll(),
         ];
 
-        return $this->respond($data);
+        // return $this->respond($data);
+        return view('arsip_terbitan/add_form', $data);
     }
 
     public function update($id = null)
@@ -73,7 +76,7 @@ class ArsipTerbitanController extends ResourceController
         ];
 
         if ($this->model->update($id, $data)) {
-            $this->session->setFlashdata('success', 'Data berhasil diupdate');
+            $this->session->setFlashdata('message', 'Data berhasil diupdate');
             $response = [
                 'status' => 200,
                 'error' => null,
@@ -81,7 +84,8 @@ class ArsipTerbitanController extends ResourceController
                     'success' => 'Data berhasil diupdate'
                 ]
             ];
-            return $this->respond($response);
+            // return $this->respond($response);
+            return redirect()->to('/dashboard/arsipterbitan');
         }
     }
 
@@ -90,7 +94,7 @@ class ArsipTerbitanController extends ResourceController
         $data = $this->model->find($id);
         if ($data) {
             $this->model->delete($id);
-            $this->session->setFlashdata('success', 'Data berhasil dihapus');
+            $this->session->setFlashdata('message', 'Data berhasil dihapus');
             $response = [
                 'status' => 200,
                 'error' => null,
@@ -98,7 +102,8 @@ class ArsipTerbitanController extends ResourceController
                     'success' => 'Data berhasil dihapus'
                 ]
             ];
-            return $this->respondDeleted($response);
+            // return $this->respondDeleted($response);
+            return redirect()->to('/dashboard/arsipterbitan');
         } else {
             return $this->failNotFound('Data tidak ditemukan dengan id ' . $id);
         }
@@ -112,7 +117,7 @@ class ArsipTerbitanController extends ResourceController
             'artikel' => $this->artikel->findAll(),
         ];
         if ($data) {
-            return $this->respond($data);
+            return view('arsip_terbitan/edit_form', $data);
         } else {
             return $this->failNotFound('Data tidak ditemukan dengan id ' . $id);
         }

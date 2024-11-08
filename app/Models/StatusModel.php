@@ -8,11 +8,11 @@ class StatusModel extends Model
 {
     protected $table            = 'status';
     protected $primaryKey       = 'id_status';
-    protected $useAutoIncrement = false;
+    protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ["id_status","nama_status"];
+    protected $allowedFields    = ["nama_status"];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;

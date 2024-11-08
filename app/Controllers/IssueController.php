@@ -9,69 +9,64 @@ use App\Models\IssueModel as Issue;
 class IssueController extends ResourceController
 {
     protected $issue;
+    protected $session;
 
     public function __construct()
     {
         $this->issue = new Issue();
+        $this->session = \Config\Services::session();
     }
 
     public function index()
     {
-        $data = $this->issue->findAll();
-        return $this->respond($data);
+        $data = $this->issue->orderBy('id_issue', 'ASC')->paginate(5);
+
+        return view('issue/index', [
+            'data' => $data,
+            'pager' => $this->issue->pager
+        ]);
+    }
+
+    public function add_form()
+    {
+        return view('issue/add_form');
     }
 
     public function create()
     {
         $data = [
-            'judul' => $this->request->getPost('judul'),
-            'deskripsi' => $this->request->getPost('deskripsi'),
-            'tanggal' => $this->request->getPost('tanggal'),
-            'status' => $this->request->getPost('status'),
+            "id_issue" => $this->request->getPost('id_issue'),
+            "nama_issue" => $this->request->getPost('nama_issue')
         ];
 
         if ($this->issue->insert($data)) {
-            $response = [
-                'status' => 201,
-                'error' => null,
-                'messages' => [
-                    'success' => 'Data berhasil disimpan'
-                ]
-            ];
-            return $this->respondCreated($response);
+            $this->session->setFlashdata('message', 'Data berhasil ditambahkan');
+            return redirect()->to('/dashboard/issue');
         }
     }
 
-    public function show($id = null)
+    public function edit($id = null)
     {
-        $data = $this->issue->getWhere(['id' => $id])->getResult();
+        $data = $this->issue->find($id);
 
         if ($data) {
-            return $this->respond($data);
+            return view('issue/edit_form', $data);
         } else {
-            return $this->failNotFound('Data tidak ditemukan dengan id ' . $id);
+            $this->session->setFlashdata('error', 'Data tidak ditemukan dengan id ' . $id);
+            return redirect()->to('/dashboard/issue');
         }
     }
 
     public function update($id = null)
     {
-        $input = $this->request->getRawInput();
+        $input = $this->request->getPost();
         $data = [
-            'judul' => $input['judul'],
-            'deskripsi' => $input['deskripsi'],
-            'tanggal' => $input['tanggal'],
-            'status' => $input['status'],
+            'nama_issue' => $input['nama_issue'],
         ];
 
         if ($this->issue->update($id, $data)) {
-            $response = [
-                'status' => 200,
-                'error' => null,
-                'messages' => [
-                    'success' => 'Data berhasil diupdate'
-                ]
-            ];
-            return $this->respond($response);
+            $this->session->setFlashdata('message', 'Data berhasil diupdate');
+            return redirect()->to('/dashboard/issue');
         }
     }
 
@@ -80,16 +75,11 @@ class IssueController extends ResourceController
         $data = $this->issue->find($id);
         if ($data) {
             $this->issue->delete($id);
-            $response = [
-                'status' => 200,
-                'error' => null,
-                'messages' => [
-                    'success' => 'Data berhasil dihapus'
-                ]
-            ];
-            return $this->respondDeleted($response);
+            $this->session->setFlashdata('message', 'Data berhasil dihapus');
+            return redirect()->to('/dashboard/issue');
         } else {
-            return $this->failNotFound('Data dengan ID ' . $id . ' tidak ditemukan');
+            $this->session->setFlashdata('error', 'Data dengan ID ' . $id . ' tidak ditemukan');
+            return redirect()->to('/dashboard/issue');
         }
     }
 }

@@ -9,30 +9,36 @@ class StatusController extends ResourceController
 {
 
     protected $model;
+    protected $session;
 
     public function __construct()
     {
         $this->model = new StatusModel();
+        $this->session = \Config\Services::session();
     }
 
     public function index()
     {
-        $status = $this->model->orderBy('id_status', 'ASC')->findAll();
-        return $this->respond($status);
+        $status = $this->model->orderBy('id_status', 'ASC')->paginate(5);
+        $data = [
+            'status' => $status,
+            'pager' => $this->model->pager,
+            'flash_message' => $this->session->getFlashdata('message'),
+        ];
 
+        return view('status/index', $data);
     }
 
     public function add_form()
     {
-        return $this->respond("Halaman tambah status");
+        return view('status/add_form');
     }
 
     public function create()
     {
         $validation = \Config\Services::validation();
         $validation->setRules([
-            'id_status' => 'required',
-            'status' => 'required',
+            'nama_status' => 'required',
         ]);
 
         if (!$validation->withRequest($this->request)->run()) {
@@ -40,12 +46,13 @@ class StatusController extends ResourceController
         }
 
         $data = [
-            'id_status' => $this->request->getPost('id_status'),
-            'status' => $this->request->getPost('status'),
+            'nama_status' => $this->request->getPost('nama_status'),
         ];
 
         if ($this->model->insert($data)) {
-            return $this->respondCreated($data);
+            $this->session->setFlashdata('message', 'Status created successfully.');
+            // return $this->respondCreated($data);
+            return redirect()->to('/dashboard/status');
         }
     }
 
@@ -63,8 +70,7 @@ class StatusController extends ResourceController
     {
         $validation = \Config\Services::validation();
         $validation->setRules([
-            'id_status' => 'required',
-            'status' => 'required',
+            'nama_status' => 'required',
         ]);
 
         if (!$validation->withRequest($this->request)->run()) {
@@ -72,12 +78,13 @@ class StatusController extends ResourceController
         }
 
         $data = [
-            'id_status' => $this->request->getPost('id_status'),
-            'status' => $this->request->getPost('status'),
+            'nama_status' => $this->request->getPost('nama_status'),
         ];
 
         if ($this->model->update($id, $data)) {
-            return $this->respondUpdated($data);
+            $this->session->setFlashdata('message', 'Status updated successfully.');
+            // return $this->respondUpdated($data);
+            return redirect()->to('/dashboard/status');
         }
     }
 
@@ -89,11 +96,9 @@ class StatusController extends ResourceController
         }
 
         if ($this->model->delete($id)) {
-            return $this->respondDeleted($status);
+            $this->session->setFlashdata('message', 'Status deleted successfully.');
+            // return $this->respondDeleted($status);
+            return redirect()->to('/dashboard/status');
         }
     }
-
-
-
-
 }
