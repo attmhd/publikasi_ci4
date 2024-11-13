@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 08, 2024 at 09:38 AM
+-- Generation Time: Nov 13, 2024 at 04:57 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -39,6 +39,18 @@ CREATE TABLE `arsip_terbitan` (
 
 INSERT INTO `arsip_terbitan` (`id`, `id_issue`, `id_artikel`) VALUES
 (1, 'IS0001', 'Art00012');
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `arsip_terbitan_view`
+-- (See below for the actual view)
+--
+CREATE TABLE `arsip_terbitan_view` (
+`id` int(11)
+,`nama_issue` text
+,`judul_artikel` text
+);
 
 -- --------------------------------------------------------
 
@@ -99,7 +111,7 @@ INSERT INTO `author` (`id_author`, `nama_author`, `prodi`, `afiliasi`, `email`, 
 (' AU00013', ' Sahrul Ageng Prasetyo', 'Teknik Informatika', ' Universitas Duta Bangsa Surakarta', '-', ''),
 (' AU00014', 'Syafrilah Astro Heriyadi', 'Teknik Informatika', ' Universitas Duta Bangsa Surakarta', '-', ''),
 (' AU00015', 'Siska Dewi', 'Jurusan Sistem Informasi', ' Universitas Islam Negeri Sumatera Utara', 'siskadewie.2@gmail.com', '0'),
-(' AU00016', 'Triase', 'Jurusan Sistem Informasi', 'Universitas Islam Negeri Sumatera Utara', 'siskadewie.2@gmail.com', '0'),
+(' AU00016', 'Triasea', 'Teknik Informatika', 'Universitas Islam Negeri Sumatera Utara', 'siskadewie.2@gmail.com', '0'),
 (' AU00017', 'Aninda Muliani Harahap ', 'Jurusan Sistem Informasi', 'Universitas Islam Negeri Sumatera Utara', 'siskadewie.2@gmail.com		', '0'),
 (' AU00018', 'Annisa Wistia Rizalmi', 'Departemen Sistem Informasi', ' Universitas Andalas', '1711521006@student.unand.ac.id', '0'),
 (' AU00019', 'Atika Fauziyyah', 'Jurusan Teknik Informatika', 'Universitas Putra Indonesia YPTK Padang', 'atikafauziyyah224@gmail.com\r\n\r\n', '0'),
@@ -205,6 +217,19 @@ INSERT INTO `detail_artikel` (`id`, `id_artikel`, `id_author`, `penulis_ke`) VAL
 -- --------------------------------------------------------
 
 --
+-- Stand-in structure for view `detail_artikel_view`
+-- (See below for the actual view)
+--
+CREATE TABLE `detail_artikel_view` (
+`id` int(11)
+,`judul_artikel` text
+,`nama_author` text
+,`penulis_ke` varchar(4)
+);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `editor`
 --
 
@@ -242,7 +267,8 @@ CREATE TABLE `issue` (
 
 INSERT INTO `issue` (`id_issue`, `nama_issue`) VALUES
 ('IS0001', 'Vol. 11 No. 2 (2023): TEKNOIF OKTOBER 2023'),
-('IS0002', 'Vol. 12 No. 1 (2024): TEKNOIF APRIL 2024');
+('IS0002', 'Vol. 12 No. 1 (2024): TEKNOIF APRIL 2024'),
+('IS0003', 'Belum Publish');
 
 -- --------------------------------------------------------
 
@@ -265,9 +291,9 @@ CREATE TABLE `review` (
 
 INSERT INTO `review` (`id_review`, `id_submit`, `id_editor`, `id_reviewer`, `tgl_penugasan_reviewer`, `id_status`) VALUES
 (1, 'Sub0003', '1', 'R01', '2024-01-18', 4),
-(2, 'Sub0003', '000', 'R02', '2024-01-18', 4),
-(3, 'Sub0009', '000', 'R03', '2024-02-25', 4),
-(4, 'Sub0009', '000', 'R04', '2024-02-25', 4);
+(2, 'Sub0003', '2', 'R02', '2024-01-18', 4),
+(3, 'Sub0009', '3', 'R03', '2024-02-25', 4),
+(4, 'Sub0009', '4', 'R04', '2024-02-25', 4);
 
 -- --------------------------------------------------------
 
@@ -290,6 +316,21 @@ INSERT INTO `reviewer` (`id_reviewer`, `nama_reviewer`, `afiliasi`) VALUES
 ('R02', 'Efmi Maiyana', NULL),
 ('R03', 'Adriyendi', NULL),
 ('R04', 'Ikhsan', 'ITP');
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `review_view`
+-- (See below for the actual view)
+--
+CREATE TABLE `review_view` (
+`id_review` int(10)
+,`id_submit` varchar(10)
+,`tgl_penugasan_reviewer` date
+,`nama_editor` varchar(50)
+,`nama_reviewer` varchar(50)
+,`nama_status` varchar(60)
+);
 
 -- --------------------------------------------------------
 
@@ -339,22 +380,39 @@ CREATE TABLE `submit` (
 
 INSERT INTO `submit` (`id_submit`, `tgl_submit`, `id_artikel`, `tgl_penugasan_editor`, `id_editor`, `id_status`, `id_issue`, `judul_baru`) VALUES
 ('Sub0001', '2023-12-12', 'Art0002', '2023-12-19', '5', '2', 'IS0001', 'Test'),
-('Sub00010', '2024-02-19', 'Art00011', '2024-02-25', '5', '1', 'Belum Publ', 'Test'),
-('Sub00011', '2024-02-21', 'Art00012', '2024-02-25', '1', '2', 'Belum Publ', NULL),
-('Sub00012', '2024-02-17', 'Art00013', '2024-02-26', '5', '2', 'Belum Publ', NULL),
-('Sub00013', '2024-02-12', 'Art00014', '2024-02-26', '2', '3', 'Belum Publ', NULL),
-('Sub00014', '2024-02-27', 'Art00015', '2024-02-27', '2', '2', 'Belum Publ', NULL),
-('Sub00015', '2024-02-27', 'Art00016', '2024-02-27', '1', '2', 'Belum Publ', NULL),
+('Sub00010', '2024-02-19', 'Art00011', '2024-02-25', '5', '1', 'IS0003', 'Test'),
+('Sub00011', '2024-02-21', 'Art00012', '2024-02-25', '1', '2', 'IS0003', NULL),
+('Sub00012', '2024-02-17', 'Art00013', '2024-02-26', '5', '2', 'IS0003', NULL),
+('Sub00013', '2024-02-12', 'Art00014', '2024-02-26', '2', '3', 'IS0003', NULL),
+('Sub00014', '2024-02-27', 'Art00015', '2024-02-27', '2', '2', 'IS0003', NULL),
+('Sub00015', '2024-02-27', 'Art00016', '2024-02-27', '1', '2', 'IS0003', NULL),
 ('Sub00016', '2023-11-03', 'Art00017', '2023-10-28', '1', '7', 'IS0002', NULL),
-('Sub0002', '2024-01-04', 'Art0003', '2024-01-18', '5', '2', '', NULL),
+('Sub0002', '2024-01-04', 'Art0003', '2024-01-18', '5', '2', 'IS0003', NULL),
 ('Sub0003', '2023-12-18', 'Art0004', '2023-12-18', '1', '7', 'IS0002', NULL),
-('Sub0004', '2024-01-16', 'Art0005', '2024-01-20', '2', '2', 'Belum Publ', NULL),
-('Sub0005', '2024-01-16', 'Art0006', '2024-01-20', '2', '1', '', NULL),
+('Sub0004', '2024-01-16', 'Art0005', '2024-01-20', '2', '2', 'IS0003', NULL),
+('Sub0005', '2024-01-16', 'Art0006', '2024-01-20', '2', '1', 'IS0003', NULL),
 ('Sub00052', '2024-10-30', 'Art00013', '0000-00-00', '3', '4', 'IS0001', 'Test'),
 ('Sub0006', '2024-01-20', 'Art0009', '2024-01-20', '2', '7', 'IS0002', ''),
-('Sub0007', '2024-01-20', 'Art00010', '2024-01-20', '2', '2', 'Belum Publ', NULL),
-('Sub0008', '2024-01-27', 'Art0007', '2024-01-27', '4', '2', 'Belum Publ', NULL),
-('Sub0009', '2024-01-27', 'Art0008', '2024-01-27', '1', '5', 'Belum Publ', NULL);
+('Sub0007', '2024-01-20', 'Art00010', '2024-01-20', '2', '2', 'IS0003', NULL),
+('Sub0008', '2024-01-27', 'Art0007', '2024-01-27', '4', '2', 'IS0003', NULL),
+('Sub0009', '2024-01-27', 'Art0008', '2024-01-27', '1', '5', 'IS0003', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `submit_view`
+-- (See below for the actual view)
+--
+CREATE TABLE `submit_view` (
+`id_submit` varchar(10)
+,`tgl_submit` date
+,`tgl_penugasan_editor` date
+,`judul_baru` varchar(50)
+,`judul_artikel` text
+,`nama_editor` varchar(50)
+,`nama_status` varchar(60)
+,`nama_issue` text
+);
 
 -- --------------------------------------------------------
 
@@ -381,11 +439,47 @@ INSERT INTO `user` (`iduser`, `namauser`, `username`, `password`, `level`) VALUE
 -- --------------------------------------------------------
 
 --
+-- Structure for view `arsip_terbitan_view`
+--
+DROP TABLE IF EXISTS `arsip_terbitan_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `arsip_terbitan_view`  AS SELECT `arsip_terbitan`.`id` AS `id`, `issue`.`nama_issue` AS `nama_issue`, `artikel`.`judul_artikel` AS `judul_artikel` FROM ((`arsip_terbitan` join `issue`) join `artikel`) WHERE `arsip_terbitan`.`id_issue` = `issue`.`id_issue` AND `arsip_terbitan`.`id_artikel` = `artikel`.`id_artikel` ;
+
+-- --------------------------------------------------------
+
+--
 -- Structure for view `author_view`
 --
 DROP TABLE IF EXISTS `author_view`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `author_view`  AS SELECT `author`.`id_author` AS `id_author`, `author`.`nama_author` AS `nama_author`, `author`.`afiliasi` AS `afiliasi` FROM `author` ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `detail_artikel_view`
+--
+DROP TABLE IF EXISTS `detail_artikel_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `detail_artikel_view`  AS SELECT `detail_artikel`.`id` AS `id`, `artikel`.`judul_artikel` AS `judul_artikel`, `author`.`nama_author` AS `nama_author`, `detail_artikel`.`penulis_ke` AS `penulis_ke` FROM ((`detail_artikel` join `artikel`) join `author`) WHERE `detail_artikel`.`id_artikel` = `artikel`.`id_artikel` AND `detail_artikel`.`id_author` = `author`.`id_author` ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `review_view`
+--
+DROP TABLE IF EXISTS `review_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `review_view`  AS SELECT `review`.`id_review` AS `id_review`, `review`.`id_submit` AS `id_submit`, `review`.`tgl_penugasan_reviewer` AS `tgl_penugasan_reviewer`, `editor`.`nama_editor` AS `nama_editor`, `reviewer`.`nama_reviewer` AS `nama_reviewer`, `status`.`nama_status` AS `nama_status` FROM (((`reviewer` join `editor`) join `status`) join `review`) WHERE `review`.`id_editor` = `editor`.`id_editor` AND `review`.`id_status` = `status`.`id_status` AND `review`.`id_reviewer` = `reviewer`.`id_reviewer` ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `submit_view`
+--
+DROP TABLE IF EXISTS `submit_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `submit_view`  AS SELECT `submit`.`id_submit` AS `id_submit`, `submit`.`tgl_submit` AS `tgl_submit`, `submit`.`tgl_penugasan_editor` AS `tgl_penugasan_editor`, `submit`.`judul_baru` AS `judul_baru`, `artikel`.`judul_artikel` AS `judul_artikel`, `editor`.`nama_editor` AS `nama_editor`, `status`.`nama_status` AS `nama_status`, `issue`.`nama_issue` AS `nama_issue` FROM ((((`artikel` join `editor`) join `status`) join `issue`) join `submit`) WHERE `submit`.`id_artikel` = `artikel`.`id_artikel` AND `submit`.`id_editor` = `editor`.`id_editor` AND `submit`.`id_status` = `status`.`id_status` AND `submit`.`id_issue` = `issue`.`id_issue` ;
 
 --
 -- Indexes for dumped tables
