@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\DetailArtikelModel;
 use App\Models\AuthorModel;
 use App\Models\ArtikelModel;
+use App\Models\DetailArtikelViewModel;
 use CodeIgniter\RESTful\ResourceController;
 
 class DetailartikelController extends ResourceController
@@ -12,27 +13,30 @@ class DetailartikelController extends ResourceController
     protected $detailartikelModel;
     protected $authorModel;
     protected $artikelModel;
+    protected $detailartikelViewModel;
 
     public function __construct()
     {
         $this->detailartikelModel = new DetailArtikelModel();
         $this->authorModel = new AuthorModel();
         $this->artikelModel = new ArtikelModel();
+        $this->detailartikelViewModel = new DetailArtikelViewModel();
     }
 
     public function index()
     {
-        $detailartikel = $this->detailartikelModel->orderBy('id', 'ASC')->paginate(5);
+        $detailartikel = $this->detailartikelViewModel->orderBy('id', 'ASC')->paginate(5);
         if (!$detailartikel) {
             return $this->fail('Failed to order articles');
         }
 
         $data = [
             'detailartikel' => $detailartikel,
-            'pager' => $this->detailartikelModel->pager,
+            'pager' => $this->detailartikelViewModel->pager,
         ];
 
         return view('detail_artikel/index', $data);
+        // return $this->respond($data);
     }   
 
     public function add_form()

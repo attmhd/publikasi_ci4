@@ -59,22 +59,22 @@
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
                 <th scope="col" class="px-6 py-3">
-                    ID Review
+                    No
                 </th>
                 <th scope="col" class="px-6 py-3">
                     ID Submit
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    ID Editor
+                    Nama Editor
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    ID Reviewer
+                    Nama Reviewer
                 </th>
                 <th scope="col" class="px-6 py-3">
                     Tanggal Penugasan
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    ID Status
+                    Nama Status
                 </th>
                 <th scope="col" class="px-6 py-3">
                     Action
@@ -87,17 +87,17 @@
             <?php foreach ($review as $key => $data) : ?>
                 <tr class="bg-white border-b dark:border-gray-700">
                     <td class="px-6 py-4 whitespace-nowrap">
-                        <?= $data['id_review']; ?>
+                        <?= $key + 1; ?>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
                         <?= $data['id_submit']; ?>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
-                        <?= $data['id_editor']; ?>
+                        <?= $data['nama_editor']; ?>
                     </td>
                     <!-- <td class="px-6 py-4 flex justify-between"> -->
                     <td class="px-6 py-4 whitespace-nowrap">
-                        <?= $data['id_reviewer']; ?>
+                        <?= $data['nama_reviewer']; ?>
                     </td>
                     <!-- <td class="px-6 py-4 flex justify-between"> -->
                     <td class="px-6 py-4 whitespace-nowrap">
@@ -105,7 +105,7 @@
                     </td>
                     <!-- <td class="px-6 py-4 flex justify-between"> -->
                     <td class="px-6 py-4 whitespace-nowrap">
-                        <?= $data['id_status']; ?>
+                        <?= $data['nama_status']; ?>
                     </td>
                     <td class="px-6 py-4 flex justify-between">
 

@@ -57,13 +57,13 @@
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
             <th scope="col" class="px-6 py-3">
-                    ID 
+                    No 
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    ID Artikel
+                    Judul Artikel
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    ID Author
+                    Nama Author
                 </th>
                 <th scope="col" class="px-6 py-3">
                     Penulis Ke
@@ -79,13 +79,13 @@
             <?php foreach ($detailartikel as $key => $data) : ?>
                 <tr class="bg-white border-b dark:border-gray-700">
                     <td class="px-6 py-4 whitespace-nowrap">
-                        <?= $data['id']; ?>
+                        <?= $key + 1; ?>
                     </td>    
                     <td   class="px-6 py-4 whitespace-nowrap">
-                        <?= $data['id_artikel']; ?>
+                        <?= $data['judul_artikel']; ?>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
-                        <?= $data['id_author']; ?>
+                        <?= $data['nama_author']; ?>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
                         <?= $data['penulis_ke']; ?>

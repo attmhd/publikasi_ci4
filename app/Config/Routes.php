@@ -6,8 +6,19 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 
-// Group all routes under 'dashboard'
-$routes->group('dashboard', function($routes) {
+$routes->get('/', function () {
+    return redirect()->to('/login');
+});
+
+$routes->get('/login', 'UserController::index');
+$routes->post('auth', 'UserController::auth');  
+$routes->get('logout', 'UserController::logout');
+
+// Group all routes under 'dashboard' and add 'auth' filter
+$routes->group('dashboard', ['filter' => 'auth'], function($routes) {
+
+    $routes->get('/', 'DashboardController::index');
+
     // make group route author
     $routes->group('author', function($routes) {
         $routes->get('/', 'AuthorController::index');
@@ -109,5 +120,3 @@ $routes->group('dashboard', function($routes) {
     });
 
 });
-
-

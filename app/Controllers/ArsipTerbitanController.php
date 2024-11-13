@@ -6,6 +6,7 @@ use CodeIgniter\RESTful\ResourceController;
 use App\Models\ArsipTerbitanModel;
 use App\Models\IssueModel;
 use App\Models\ArtikelModel;
+use App\Models\ArsipTerbitanViewModel;
 
 class ArsipTerbitanController extends ResourceController
 {
@@ -13,22 +14,24 @@ class ArsipTerbitanController extends ResourceController
     protected $issue;
     protected $artikel;
     protected $session;
+    protected $arsipTerbitanViewModel;
 
     public function __construct()
     {
         $this->model = new ArsipTerbitanModel();
         $this->issue = new IssueModel();
         $this->artikel = new ArtikelModel();
+        $this->arsipTerbitanViewModel = new ArsipTerbitanViewModel();
         $this->session = \Config\Services::session();
     }
 
     public function index()
     {
-        $data = $this->model->orderBy('id','ASC')->paginate(5);
+        $data = $this->arsipTerbitanViewModel->orderBy('id','ASC')->paginate(5);
 
         $data = [
             'data' => $data,
-            'pager' => $this->model->pager,
+            'pager' => $this->arsipTerbitanViewModel->pager,
         ];
 
         return view('arsip_terbitan/index', $data);

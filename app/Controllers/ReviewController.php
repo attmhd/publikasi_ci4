@@ -8,6 +8,7 @@ use App\Models\SubmitModel;
 use App\Models\EditorModel;
 use App\Models\ReviewerModel;
 use App\Models\StatusModel;
+use App\Models\ReviewViewModel;
 
 class ReviewController extends ResourceController
 {
@@ -16,6 +17,7 @@ class ReviewController extends ResourceController
     protected $editorModel;
     protected $reviewerModel;
     protected $statusModel;
+    protected $reviewViewModel;
 
     public function __construct()
     {
@@ -24,13 +26,14 @@ class ReviewController extends ResourceController
         $this->editorModel = new EditorModel();
         $this->reviewerModel = new ReviewerModel();
         $this->statusModel = new StatusModel();
+        $this->reviewViewModel = new ReviewViewModel();
     }
 
     public function index()
     {
         $data = [
-            'review' => $this->reviewModel->orderBy('id_review', 'ASC')->paginate(5),
-            'pager' => $this->reviewModel->pager,
+            'review' => $this->reviewViewModel->orderBy('id_review', 'ASC')->paginate(5),
+            'pager' => $this->reviewViewModel->pager,
         ];
 
         // return $this->respond($data);

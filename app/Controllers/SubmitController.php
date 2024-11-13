@@ -8,6 +8,7 @@ use App\Models\ArtikelModel;
 use App\Models\EditorModel;
 use App\Models\IssueModel;
 use App\Models\StatusModel;
+use App\Models\SubmitViewModel;
 
 class SubmitController extends ResourceController
 {
@@ -16,6 +17,7 @@ class SubmitController extends ResourceController
     protected $editorModel;
     protected $issueModel;
     protected $statusModel;
+    protected $submitViewModel;
     protected $session;
 
     public function __construct()
@@ -25,14 +27,15 @@ class SubmitController extends ResourceController
         $this->editorModel = new EditorModel();
         $this->issueModel = new IssueModel();
         $this->statusModel = new StatusModel();
+        $this->submitViewModel = new SubmitViewModel();
         $this->session = \Config\Services::session();
     }
 
     public function index()
     {
         $data = [
-            'submit' => $this->submitModel->orderBy('id_submit', 'ASC')->paginate(5),
-            'pager' => $this->submitModel->pager,
+            'submit' => $this->submitViewModel->orderBy('id_submit', 'ASC')->paginate(5),
+            'pager' => $this->submitViewModel->pager,
         ];
 
         return view('submit/index', $data);

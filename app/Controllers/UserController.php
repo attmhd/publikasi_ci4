@@ -4,8 +4,7 @@ namespace App\Controllers;
 
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
-
-use App\Models\UserModel as User;    
+use App\Models\UserModel;
 
 class UserController extends ResourceController
 {
@@ -16,15 +15,15 @@ class UserController extends ResourceController
 
     public function __construct()
     {
-        $this->userModel = new User();
+        $this->userModel = new UserModel();
         $this->session = \Config\Services::session();
+
     }
 
     // Login view
     public function index()
     {
-        // return view('login_view');
-        return $this->respond('login_view');
+        return view('login_view');
     }
 
     // Register view
@@ -47,6 +46,7 @@ class UserController extends ResourceController
     // Create user
     public function register()
     {
+        $user_model = new UserModel();
         $data = [
             'iduser' => $this->request->getVar('iduser'),
             'namauser' => $this->request->getVar('namauser'),
@@ -55,7 +55,7 @@ class UserController extends ResourceController
             'level' => $this->request->getVar('level'),
         ];
 
-        if ($this->userModel->insert($data)) {
+        if ($user_model->insert($data)) {
             $response = [
                 'status' => 201,
                 'error' => null,
@@ -66,36 +66,53 @@ class UserController extends ResourceController
             ];
             return $this->respondCreated($response);
         } else {
-            return $this->fail($this->userModel->errors());
+            return $this->fail($user_model->errors());
         }
     }
 
     // Authenticate user
     public function auth()
     {
+        $user_model = new UserModel();
         $username = $this->request->getVar('username');
         $password = $this->request->getVar('password');
-        $user = $this->userModel->where('username', $username)->first();
+        $data = $user_model->getWhere(['username' => $username, 'password' => $password])->getResult();
+        $response = [
+            'status' => 200,
+            'error' => null,
+            'message' => [
+                'success' => 'Login succes',
+                'data' => $data
+            ]
+        ];
+        if($data){
 
-        if ($user && password_verify($password, $user['password'])) {
-            // Set session
-            $this->session->set([
-                'iduser' => $user['iduser'],
-                'namauser' => $user['namauser'],
-                'username' => $user['username'],
-                'level' => $user['level']
-            ]);
+            //set session
+            $session = session();
+            $session->set('iduser', $data[0]->iduser);
+            $session->set('namauser', $data[0]->namauser);
+            $session->set('username', $data[0]->username);
+            $session->set('level', $data[0]->level);
 
+            //printout session with json response
+            $response['session'] = $session->get();
+            // return $this->respond($response);
+
+
+
+            
             return redirect()->to('/dashboard');
-        } else {
+            // return $this->respond($response);
+        }else{
+            //flash message
             return redirect()->to('/login')->with('error', 'Username atau password salah');
+
         }
     }
-
     // Logout user
     public function logout()
     {
-        $this->session->destroy();
+        session()->destroy();
         return redirect()->to('/login')->with('success', 'Anda telah berhasil logout.');
     }
 }

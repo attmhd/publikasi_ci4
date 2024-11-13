@@ -59,25 +59,25 @@
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
                 <th scope="col" class="px-6 py-3">
-                    ID Submit
+                    No
                 </th>
                 <th scope="col" class="px-6 py-3">
                     Tanggal Submit
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    ID Artikel
+                    Judul Artikel
                 </th>
                 <th scope="col" class="px-6 py-3">
                     Tanggal Penugasan Editor
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    ID Editor
+                    Nama Editor
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    ID Status
+                    Nama Status
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    ID Issue
+                    Nama Issue
                 </th>
                 <th scope="col" class="px-6 py-3">
                     Judul Baru
@@ -93,13 +93,13 @@
             <?php foreach ($submit as $key => $data) : ?>
                 <tr class="bg-white border-b dark:border-gray-700">
                     <td class="px-6 py-4 whitespace-nowrap">
-                        <?= $data['id_submit']; ?>
+                        <?= $key + 1; ?>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
                         <?= $data['tgl_submit']; ?>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
-                        <?= $data['id_artikel']; ?>
+                        <?= $data['judul_artikel']; ?>
                     </td>
                     <!-- <td class="px-6 py-4 flex justify-between"> -->
                     <td class="px-6 py-4 whitespace-nowrap">
@@ -107,14 +107,14 @@
                     </td>
                     <!-- <td class="px-6 py-4 flex justify-between"> -->
                     <td class="px-6 py-4 whitespace-nowrap">
-                        <?= $data['id_editor']; ?>
+                        <?= $data['nama_editor']; ?>
                     </td>
                     <!-- <td class="px-6 py-4 flex justify-between"> -->
                     <td class="px-6 py-4 whitespace-nowrap">
-                        <?= $data['id_status']; ?>
+                        <?= $data['nama_status']; ?>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
-                        <?= $data['id_issue']; ?>
+                        <?= $data['nama_issue']; ?>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
                         <?= $data['judul_baru']; ?>
